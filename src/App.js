@@ -11,7 +11,9 @@ function App() {
   // get cache
   const getInitialCity = () => {
     const cachedCity = localStorage.getItem("selectedCity");
-    return cachedCity ? JSON.parse(cachedCity) : { name: "Select a city from the menu", section: "" };
+    return cachedCity
+      ? JSON.parse(cachedCity)
+      : { name: "Select a city from the menu", section: "" };
   };
   const getInitialTime = () => localStorage.getItem("currentTime") || "";
   const getInitialDate = () => localStorage.getItem("currentDate") || "";
@@ -49,14 +51,20 @@ function App() {
     setCurrentTime(now);
   }, [selectedCity]);
 
-  // update time and text every second
   useEffect(() => {
+    // Update the time and text when selectedCity changes
+    updateTimeText();
+    updateDateText();
+
+    // interval to update the time and text every second
     const timerId = setInterval(() => {
       updateTimeText();
       updateDateText();
     }, 1000);
+
+    // Cleanup
     return () => clearInterval(timerId);
-  }, [updateDateText, updateTimeText, selectedCity]);
+  }, [updateTimeText, updateDateText, selectedCity]);
 
   return (
     <>
@@ -64,7 +72,7 @@ function App() {
       <NavBar
         cities={cities}
         selectedCity={selectedCity}
-        onCitySelect={setSelectedCity}
+        setSelectedCity={setSelectedCity}
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
       />

@@ -2,9 +2,15 @@ import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import NavItem from "../NavItem";
 import MenuButton from "../MenuButton";
-import './NavBar.css';
+import "./NavBar.css";
 
-function NavBar({ cities, selectedCity, onCitySelect, menuOpen, setMenuOpen }) {
+function NavBar({
+  cities,
+  selectedCity,
+  setSelectedCity,
+  menuOpen,
+  setMenuOpen,
+}) {
   // ref and state
   const navSliderRef = useRef(null);
   const activeButtonRef = useRef(null);
@@ -15,7 +21,7 @@ function NavBar({ cities, selectedCity, onCitySelect, menuOpen, setMenuOpen }) {
 
   // update selected city and update positioning of slider
   function onSelect(city, buttonElement) {
-    onCitySelect(city);
+    setSelectedCity(city);
     setMenuOpen(false);
     activeButtonRef.current = buttonElement;
     const newPosition = {
@@ -26,7 +32,7 @@ function NavBar({ cities, selectedCity, onCitySelect, menuOpen, setMenuOpen }) {
     localStorage.setItem("sliderPosition", JSON.stringify(newPosition));
   }
 
-  // use effect to set state for position and width of slider 
+  // use effect to set state for position and width of slider
   useEffect(() => {
     const savedPosition = localStorage.getItem("sliderPosition");
     if (savedPosition) {
@@ -88,7 +94,7 @@ NavBar.propTypes = {
     section: PropTypes.string,
     label: PropTypes.string,
   }),
-  onCitySelect: PropTypes.func.isRequired,
+  setSelectedCity: PropTypes.func.isRequired,
   setMenuOpen: PropTypes.func.isRequired,
   menuOpen: PropTypes.bool.isRequired,
 };
