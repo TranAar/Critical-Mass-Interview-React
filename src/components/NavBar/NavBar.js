@@ -1,61 +1,55 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import NavItem from "../NavItem";
 import MenuButton from "../MenuButton";
 import "./NavBar.css";
 
-function NavBar({
-  cities,
-  selectedCity,
-  setSelectedCity,
-  menuOpen,
-  setMenuOpen,
-}) {
+function NavBar({ cities, selectedCity, setSelectedCity, menuOpen, setMenuOpen }) {
   // ref and state
   const navSliderRef = useRef(null);
-  const activeButtonRef = useRef(null);
-  const [sliderPosition, setSliderPosition] = useState({
-    left: 0,
-    width: 0,
-  });
+  const [sliderPosition, setSliderPosition] = useState({ left: 0, width: 0 });
 
-  // update selected city and update positioning of slider
-  function onSelect(city, buttonElement) {
+  // Update selected city and slider position
+  const onSelect = (city) => {
     setSelectedCity(city);
     setMenuOpen(false);
-    activeButtonRef.current = buttonElement;
-    const newPosition = {
-      left: buttonElement.offsetLeft,
-      width: buttonElement.offsetWidth,
-    };
-    setSliderPosition(newPosition);
-    localStorage.setItem("sliderPosition", JSON.stringify(newPosition));
-  }
+    setSliderPosition({
+      left: document.getElementById(city.section).offsetLeft,
+      width: document.getElementById(city.section).offsetWidth,
+    });
+  };
+
+  const updateSliderPosition = useCallback(() => {
+    if (selectedCity) {
+      const buttonElement = document.getElementById(selectedCity.section);
+      if (buttonElement) {
+        setSliderPosition({
+          left: buttonElement.offsetLeft,
+          width: buttonElement.offsetWidth,
+        });
+      }
+    }
+  }, [selectedCity])
 
   // use effect to set state for position and width of slider
   useEffect(() => {
-    const savedPosition = localStorage.getItem("sliderPosition");
-    if (savedPosition) {
-      const parsedPosition = JSON.parse(savedPosition);
-      setSliderPosition(parsedPosition);
-    } else if (selectedCity && activeButtonRef.current) {
-      const buttonElement = activeButtonRef.current;
-      const newPosition = {
-        left: buttonElement.offsetLeft,
-        width: buttonElement.offsetWidth,
-      };
-      setSliderPosition(newPosition);
-      localStorage.setItem("sliderPosition", JSON.stringify(newPosition));
-    }
-  }, [selectedCity, cities]);
+    updateSliderPosition();
+  }, [selectedCity, updateSliderPosition]);
 
   // use effect to update the position
   useEffect(() => {
     if (navSliderRef.current) {
-      navSliderRef.current.style.left = `${sliderPosition.left}px`;
-      navSliderRef.current.style.width = `${sliderPosition.width}px`;
+      const { left, width } = sliderPosition;
+      navSliderRef.current.style.left = `${left}px`;
+      navSliderRef.current.style.width = `${width}px`;
     }
   }, [sliderPosition]);
+
+  // use effect to update position on window resize
+  useEffect(() => {
+    window.addEventListener("resize", updateSliderPosition);
+    return () => window.removeEventListener("resize", updateSliderPosition);
+  }, [selectedCity, updateSliderPosition]);
 
   return (
     <nav id="nav-bar" className={menuOpen ? "nav-active" : ""}>
@@ -73,9 +67,9 @@ function NavBar({
       <div
         id="nav-slider"
         ref={navSliderRef}
-        style={{
-          left: activeButtonRef.current?.offsetLeft || 0,
-          width: activeButtonRef.current?.offsetWidth || 0,
+        style={{ 
+          left: sliderPosition.left,
+          width: sliderPosition.width
         }}
       ></div>
       <MenuButton menuOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
