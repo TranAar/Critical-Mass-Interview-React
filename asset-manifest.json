@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Critical-Mass-Interview-React/static/css/main.09ab24c3.css",
+    "main.css": "/Critical-Mass-Interview-React/static/css/main.b5e955ac.css",
     "main.js": "/Critical-Mass-Interview-React/static/js/main.c6a565fb.js",
     "index.html": "/Critical-Mass-Interview-React/index.html",
-    "main.09ab24c3.css.map": "/Critical-Mass-Interview-React/static/css/main.09ab24c3.css.map",
+    "main.b5e955ac.css.map": "/Critical-Mass-Interview-React/static/css/main.b5e955ac.css.map",
     "main.c6a565fb.js.map": "/Critical-Mass-Interview-React/static/js/main.c6a565fb.js.map"
   },
   "entrypoints": [
-    "static/css/main.09ab24c3.css",
+    "static/css/main.b5e955ac.css",
     "static/js/main.c6a565fb.js"
   ]
 }
