@@ -52,8 +52,8 @@ function NavBar({ cities, selectedCity, setSelectedCity, menuOpen, setMenuOpen }
   }, [selectedCity, updateSliderPosition]);
 
   return (
-    <nav id="nav-bar" className={menuOpen ? "nav-active" : ""}>
-      <ul id="nav-bar-list">
+    <nav className={"nav-bar" + (menuOpen ? " nav-active" : "")}>
+      <ul className="nav-bar-list">
         {cities.map((city) => (
           <NavItem
             key={city?.section}
@@ -63,9 +63,9 @@ function NavBar({ cities, selectedCity, setSelectedCity, menuOpen, setMenuOpen }
           />
         ))}
       </ul>
-      <div id="nav-divider"></div>
+      <div className="nav-divider"></div>
       <div
-        id="nav-slider"
+        className="nav-slider"
         ref={navSliderRef}
         style={{ 
           left: sliderPosition.left,

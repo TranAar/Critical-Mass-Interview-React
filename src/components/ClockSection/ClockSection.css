@@ -1,4 +1,4 @@
-#clock-section {
+.clock-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,11 +8,11 @@
   margin-top: 3rem;
 }
 
-#clock {
+.clock {
   font-size: 3rem;
 }
 
-#location {
+.location {
   font-size: 1.25rem;
   letter-spacing: 0.1rem;
   animation: fadeDown 0.5s ease-out;
@@ -20,8 +20,30 @@
   margin: 0;
 }
 
-#date {
+.date {
   font-size: 1.25rem;
   letter-spacing: 0.1rem;
   animation: fadeUp 0.5s ease-out;
+}
+
+@keyframes fadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

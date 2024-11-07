@@ -22,7 +22,7 @@ button:hover {
   color: var(--hover-color);
 }
 
-#blur-screen {
+.blur-screen {
   display: none;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.25);
@@ -32,29 +32,7 @@ button:hover {
 }
 
 @media only screen and (max-width: 992px) {
-  #blur-screen.screen-active {
+  .blur-screen.screen-active {
     display: inline-block;
-  }
-}
-
-@keyframes fadeDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

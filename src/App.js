@@ -68,7 +68,7 @@ function App() {
 
   return (
     <>
-      <div id="blur-screen" className={menuOpen ? "screen-active" : ""}></div>
+      <div className={"blur-screen" + (menuOpen ? " screen-active" : "")}></div>
       <NavBar
         cities={cities}
         selectedCity={selectedCity}

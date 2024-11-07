@@ -5,7 +5,7 @@ import "./MenuButton.css";
 function MenuButton({ menuOpen, onClick }) {
   return (
     <button
-      id="menu-burger"
+      className="menu-burger"
       onClick={onClick}
       aria-label="Toggle Nav Location Menu"
     >

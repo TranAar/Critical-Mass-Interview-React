@@ -4,14 +4,14 @@ import "./ClockSection.css";
 
 function ClockSection({ selectedCity, currentTime, currentDate }) {
   return (
-    <section id="clock-section" aria-label="Clock">
-      <h1 id="location" key={selectedCity?.label}>
+    <section className="clock-section" aria-label="Clock">
+      <h1 className="location" key={selectedCity?.label}>
         {selectedCity?.label || "Select a city from the menu"}
       </h1>
-      <div id="clock" aria-live="polite">
+      <div className="clock" aria-live="polite">
         {currentTime}
       </div>
-      <span id="date" key={currentDate}>
+      <span className="date" key={currentDate}>
         {currentDate}
       </span>
     </section>
