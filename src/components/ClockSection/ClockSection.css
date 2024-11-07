@@ -1,0 +1,27 @@
+#clock-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+#clock {
+  font-size: 3rem;
+}
+
+#location {
+  font-size: 1.25rem;
+  letter-spacing: 0.1rem;
+  animation: fadeDown 0.5s ease-out;
+  font-weight: 500;
+  margin: 0;
+}
+
+#date {
+  font-size: 1.25rem;
+  letter-spacing: 0.1rem;
+  animation: fadeUp 0.5s ease-out;
+}

@@ -1,0 +1,23 @@
+li.nav-bar-list-item {
+  width: fit-content;
+  display: inline-block;
+  text-align: center;
+}
+
+li.nav-bar-list-item > button.active {
+  color: var(--font-color);
+}
+
+@media screen and (max-width: 992px) {
+  li.nav-bar-list-item {
+    width: 100%;
+  }
+
+  li.nav-bar-list-item > button {
+    border-bottom: solid rgba(9, 9, 9, 0) 2px;
+  }
+
+  li.nav-bar-list-item > button.active {
+    border-bottom: solid var(--font-color) 2px;
+  }
+}

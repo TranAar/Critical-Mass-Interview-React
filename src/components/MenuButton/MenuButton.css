@@ -1,0 +1,16 @@
+#menu-burger {
+  font-size: 2rem;
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  #menu-burger {
+    color: var(--main-color);
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
