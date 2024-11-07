@@ -8,7 +8,7 @@ To get a local copy up and running follow these steps.
 
 ### Alternative
 
-https://tranaa.github.io/Critical-Mass-Interview/
+https://tranaar.github.io/Critical-Mass-Interview-React/
 
 ### Note
 
