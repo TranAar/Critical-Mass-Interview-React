@@ -5,8 +5,8 @@ import "./ClockSection.css";
 function ClockSection({ selectedCity, currentTime, currentDate }) {
   return (
     <section id="clock-section" aria-label="Clock">
-      <h1 id="location" key={selectedCity.label}>
-        {selectedCity.label || "Select a city from the menu"}
+      <h1 id="location" key={selectedCity?.label}>
+        {selectedCity?.label || "Select a city from the menu"}
       </h1>
       <div id="clock" aria-live="polite">
         {currentTime}
@@ -19,7 +19,10 @@ function ClockSection({ selectedCity, currentTime, currentDate }) {
 }
 
 ClockSection.propTypes = {
-  selectedCity: PropTypes.string.isRequired,
+  selectedCity: PropTypes.shape({
+    section: PropTypes.string,
+    label: PropTypes.string,
+  }),
   currentTime: PropTypes.string.isRequired,
   currentDate: PropTypes.string.isRequired,
 };

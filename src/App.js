@@ -7,12 +7,30 @@ import "./App.css";
 
 function App() {
   const { cities } = CityData;
-  const [selectedCity, setSelectedCity] = useState("Select a city from the menu");
-  const [currentTime, setCurrentTime] = useState("");
-  const [currentDate, setCurrentDate] = useState("");
+
+  // get cache
+  const getInitialCity = () => {
+    const cachedCity = localStorage.getItem("selectedCity");
+    return cachedCity ? JSON.parse(cachedCity) : { name: "Select a city from the menu", section: "" };
+  };
+  const getInitialTime = () => localStorage.getItem("currentTime") || "";
+  const getInitialDate = () => localStorage.getItem("currentDate") || "";
+
+  // state and set cache
+  const [selectedCity, setSelectedCity] = useState(getInitialCity);
+  const [currentTime, setCurrentTime] = useState(getInitialTime);
+  const [currentDate, setCurrentDate] = useState(getInitialDate);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const changeDateText = useCallback(() => {
+  // update cache
+  useEffect(() => {
+    localStorage.setItem("selectedCity", JSON.stringify(selectedCity));
+    localStorage.setItem("currentTime", currentTime);
+    localStorage.setItem("currentDate", currentDate);
+  }, [selectedCity, currentTime, currentDate]);
+
+  // update date text
+  const updateDateText = useCallback(() => {
     const newDate = new Date().toLocaleDateString("en-US", {
       timeZone: TIME_ZONES_MAP[selectedCity?.section],
       weekday: "long",
@@ -23,20 +41,22 @@ function App() {
     setCurrentDate(newDate);
   }, [selectedCity]);
 
-  const displayTime = useCallback(() => {
+  // update display time
+  const updateTimeText = useCallback(() => {
     const now = new Date().toLocaleTimeString("en-US", {
       timeZone: TIME_ZONES_MAP[selectedCity?.section],
     });
     setCurrentTime(now);
   }, [selectedCity]);
 
+  // update time and text every second
   useEffect(() => {
     const timerId = setInterval(() => {
-      displayTime();
-      changeDateText();
-    }, 100);
+      updateTimeText();
+      updateDateText();
+    }, 1000);
     return () => clearInterval(timerId);
-  }, [changeDateText, displayTime, selectedCity]);
+  }, [updateDateText, updateTimeText, selectedCity]);
 
   return (
     <>

@@ -1,35 +1,65 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import NavItem from "../NavItem";
 import MenuButton from "../MenuButton";
 import './NavBar.css';
 
 function NavBar({ cities, selectedCity, onCitySelect, menuOpen, setMenuOpen }) {
+  // ref and state
   const navSliderRef = useRef(null);
   const activeButtonRef = useRef(null);
+  const [sliderPosition, setSliderPosition] = useState({
+    left: 0,
+    width: 0,
+  });
 
-  function changeLocation(city, buttonElement) {
+  // update selected city and update positioning of slider
+  function onSelect(city, buttonElement) {
     onCitySelect(city);
     setMenuOpen(false);
     activeButtonRef.current = buttonElement;
+    const newPosition = {
+      left: buttonElement.offsetLeft,
+      width: buttonElement.offsetWidth,
+    };
+    setSliderPosition(newPosition);
+    localStorage.setItem("sliderPosition", JSON.stringify(newPosition));
   }
 
+  // use effect to set state for position and width of slider 
   useEffect(() => {
-    if (navSliderRef.current && activeButtonRef.current) {
-      navSliderRef.current.style.left = `${activeButtonRef.current.offsetLeft}px`;
-      navSliderRef.current.style.width = `${activeButtonRef.current.offsetWidth}px`;
+    const savedPosition = localStorage.getItem("sliderPosition");
+    if (savedPosition) {
+      const parsedPosition = JSON.parse(savedPosition);
+      setSliderPosition(parsedPosition);
+    } else if (selectedCity && activeButtonRef.current) {
+      const buttonElement = activeButtonRef.current;
+      const newPosition = {
+        left: buttonElement.offsetLeft,
+        width: buttonElement.offsetWidth,
+      };
+      setSliderPosition(newPosition);
+      localStorage.setItem("sliderPosition", JSON.stringify(newPosition));
     }
-  }, [selectedCity]);
+  }, [selectedCity, cities]);
+
+  // use effect to update the position
+  useEffect(() => {
+    if (navSliderRef.current) {
+      navSliderRef.current.style.left = `${sliderPosition.left}px`;
+      navSliderRef.current.style.width = `${sliderPosition.width}px`;
+    }
+  }, [sliderPosition]);
 
   return (
     <nav id="nav-bar" className={menuOpen ? "nav-active" : ""}>
       <ul id="nav-bar-list">
         {cities.map((city) => (
           <NavItem
-            key={city.section}
+            key={city?.section}
             city={city}
-            isActive={selectedCity.label === city.label}
-            onSelect={changeLocation}
+            isActive={selectedCity?.label === city?.label}
+            onSelect={onSelect}
           />
         ))}
       </ul>
@@ -54,7 +84,10 @@ NavBar.propTypes = {
       label: PropTypes.string.isRequired,
     })
   ).isRequired,
-  selectedCity: PropTypes.string.isRequired,
+  selectedCity: PropTypes.shape({
+    section: PropTypes.string,
+    label: PropTypes.string,
+  }),
   onCitySelect: PropTypes.func.isRequired,
   setMenuOpen: PropTypes.func.isRequired,
   menuOpen: PropTypes.bool.isRequired,
